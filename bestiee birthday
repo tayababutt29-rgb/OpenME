@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Ambreen! 💖</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Sacramento&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffe6f2, #ffb3d9);
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- TOP WELCOME SECTION WITH BACKGROUND PHOTO & MUSIC BUTTON --- */
+        .top-welcome-section {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            background: url('https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+        }
+
+        .top-welcome-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .top-welcome-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        .top-welcome-content h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #ff99bb;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .music-trigger-btn {
+            background: #ff3366;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.5);
+            transition: 0.3s ease;
+            font-weight: 600;
+        }
+
+        .music-trigger-btn:hover {
+            background: #ff1a47;
+            transform: scale(1.05);
+        }
+
+        /* --- SLIDING CURTAIN ANIMATION SCREEN (FULL SCREEN) --- */
+        #curtain-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1a001a;
+            overflow: hidden;
+            transition: opacity 1s ease;
+        }
+
+        .curtain {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, #b30000, #ff1a1a, #800000);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+            z-index: 1002;
+            transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .curtain.left { left: 0; transform-origin: left; }
+        .curtain.right { right: 0; transform-origin: right; }
+
+        .curtain-screen.open .curtain.left { transform: translateX(-100%); }
+        .curtain-screen.open .curtain.right { transform: translateX(100%); }
+
+        .curtain-content {
+            position: relative;
+            z-index: 1003;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .auto-open-btn {
+            background: #ff3366;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(255, 51, 102, 0.8);
+            animation: pulseGlow 1.5s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 51, 102, 0.6); }
+            50% { transform: scale(1.08); box-shadow: 0 0 30px rgba(255, 51, 102, 1); }
+            100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 51, 102, 0.6); }
+        }
+
+        /* --- FULL SCREEN LARGE FRAME PICTURE SECTION WHEN CURTAINS OPEN --- */
+        .fullscreen-photo-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(20, 0, 15, 0.92);
+            z-index: 900;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .fullscreen-photo-section img {
+            max-width: 85vw;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+            border: 3px solid #ff99bb;
+            margin-bottom: 20px;
+        }
+
+        .continue-btn {
+            background: #ff3366;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .continue-btn:hover {
+            background: #ff1a47;
+            transform: scale(1.05);
+        }
+
+        /* --- GLITTERS / SPARKLES --- */
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleAnim 1.5s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 1001;
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 10px #ff99bb; }
+        }
+
+        /* --- MAIN WEBSITE CONTAINER --- */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: none;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #d63384;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* --- ALBUM GRID SECTION --- */
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .memory-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(214, 51, 132, 0.2);
+        }
+
+        .memory-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    background: #fff;
+    display: block;
+}
+
+        .memory-caption {
+            padding: 15px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        /* --- UNLOCK GIFT BUTTON SECTION --- */
+        .unlock-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .unlock-btn {
+            background: linear-gradient(135deg, #ff4d88, #d63384);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(214, 51, 132, 0.4);
+            transition: 0.3s;
+        }
+
+        .unlock-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #ff1a66, #b02a6b);
+        }
+
+        /* --- MODAL PUZZLE POPUP --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: popIn 0.4s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-box h3 {
+            color: #d63384;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .modal-box p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .modal-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffccd5;
+            border-radius: 10px;
+            outline: none;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-box input:focus {
+            border-color: #d63384;
+        }
+
+        .puzzle-submit {
+            background: #d63384;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .error-msg {
+            color: #ff3333;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* --- FINAL VIDEO & WISHES SECTION --- */
+        .gift-card-section {
+            display: none;
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(214, 51, 132, 0.15);
+            border: 2px dashed #ffb3d9;
+            margin-top: 30px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .gift-card-section h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #d63384;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .video-container {
+            margin-bottom: 30px;
+        }
+
+        .video-container video {
+            width: 100%;
+            max-width: 700px;
+            max-height: 450px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border: 3px solid #ffb3d9;
+            background: #000;
+        }
+
+        /* Cute & Simple Message Styling */
+        .friendship-message-box {
+            background: #fff9fb;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #d63384;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .friendship-message-box h3 {
+            font-family: 'Dancing Script', cursive;
+            color: #d63384;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .friendship-message-box p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .duas-list {
+            margin-top: 20px;
+            padding-left: 20px;
+            color: #d63384;
+            font-weight: 600;
+        }
+
+        .duas-list li {
+            margin-bottom: 8px;
+            font-weight: 400;
+            color: #555;
+        }
+
+        /* Responsive adjustments */
+        @media(max-width: 768px) {
+            .top-welcome-content h2 { font-size: 2.3rem; }
+            header h1 { font-size: 2.8rem; }
+            .gift-card-section { padding: 20px; }
+            .friendship-message-box { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= TOP WELCOME SECTION WITH BACKGROUND PHOTO & MUSIC BUTTON ================= -->
+    <section class="top-welcome-section">
+        <div class="top-welcome-overlay"></div>
+        <div class="top-welcome-content">
+            <h2>Welcome to Ambreen's Special Day ✨</h2>
+            <p style="margin-bottom: 20px; font-size: 1.05rem;">Click the button below to turn on the music & bloom the magic!</p>
+            <!-- Music Audio Button -->
+            <button class="music-trigger-btn" onclick="playMusicAndBloom()">
+                <i class="fa-solid fa-music"></i> Click Me for Music 🎶
+            </button>
+        </div>
+    </section>
+
+    <!-- BACKGROUND AUDIO -->
+    <audio id="bg-music" loop>
+        <source src="birtdaymusic.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- ================= FULLSCREEN CURTAIN SCREEN ================= -->
+    <div id="curtain-screen" class="curtain-screen">
+        <div class="curtain left"></div>
+        <div class="curtain right"></div>
+        
+        <div class="curtain-content">
+            <h1 style="font-family: 'Sacramento', cursive; font-size: 3.5rem; color: #ff99bb; margin-bottom: 20px;">Happy Birthday Ambreen! 💖</h1>
+            <button class="auto-open-btn" onclick="openCurtain()">Celebrating your 21st Birthady  ✨</button>
+        </div>
+    </div>
+
+    <!-- ================= FULL-SCREEN PICTURE SECTION REVEALED AFTER CURTAINS ================= -->
+    <div class="fullscreen-photo-section" id="fullscreenPhotoSection">
+        <img src="bestieephoto.jpg" alt="Full Screen Besties Photo">
+        <button class="continue-btn" onclick="enterMainWebsite()">Explore Memories & Surprises 🌸</button>
+    </div>
+
+    <!-- ================= MAIN WEBSITE CONTENT ================= -->
+    <div class="main-container" id="mainContent">
+        <header>
+            <h1>To My Dearest Bestiee</h1>
+            <p>Celebrating the most amazing soul on her special day!</p>
+        </header>
+
+        <!-- ================= 6-PICTURE MEMORIES ALBUM ================= -->
+        <section class="album-section">
+            <div class="album-grid">
+                <!-- Memory 1 -->
+                <div class="memory-card">
+                    <img src="bestiee11.png" alt="Memory 1" class="memory-img">
+                    <div class="memory-caption">Unforgettable crazy laughs & endless gossips! 😂💕</div>
+                </div>
+                <!-- Memory 2 -->
+                <div class="memory-card">
+                    <img src="bestiee1.jpg" alt="Memory 2" class="memory-img">
+                    <div class="memory-caption">Late night chats when the whole world was asleep. 🌙✨</div>
+                </div>
+                <!-- Memory 3 -->
+                <div class="memory-card">
+                    <img src="bestiee2.jpg" alt="Memory 3" class="memory-img">
+                    <div class="memory-caption"> My favorite person, always. 🤍</div>
+                </div>
+                <!-- Memory 4 -->
+                <div class="memory-card">
+                    <img src="1bestie.jpg" alt="Memory 4" class="memory-img">
+                    <div class="memory-caption"> Life is better with you. ✨</div>
+                </div>
+                <!-- Memory 5 -->
+                <div class="memory-card">
+                    <img src="bestiee4.jpg" alt="Memory 5" class="memory-img">
+                    <div class="memory-caption"> Memories with my forever girl. 💕</div>
+                </div>
+                <!-- Memory 6 -->
+                <div class="memory-card">
+                    <img src="bestiee5.jpg" alt="Memory 6" class="memory-img">
+                    <div class="memory-caption">Grateful for you, today and always. 🎀</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Unlock Button for Next Gift -->
+        <div class="unlock-section">
+            <button class="unlock-btn" onclick="showPuzzleModal()">Unlock Your Final Special Video & Message 🎁</button>
+        </div>
+
+        <!-- ================= FINAL VIDEO & MESSAGE SECTION ================= -->
+        <section class="gift-card-section" id="giftSection">
+            <h2>A Special Surprise For You, Ambreen ✨</h2>
+            
+            <!-- Video Container -->
+            <div class="video-container">
+                <video id="surpriseVideo" controls>
+                    <source src="video1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <!-- Cute Simple Friendship Message & Duas -->
+            <div class="friendship-message-box">
+                <h3>To My Best Friend Forever 💌</h3>
+                <p>Happy Birthday to my most special person and my forever bestie! 🥹🤍🎂✨ I honestly don’t know how to put into words how much you mean to me. You are not just my best friend, you are someone who has become such an important part of my life. From our random talks and endless laughter to the little moments that only we understand, every memory with you is genuinely precious to me. 🫶🏻💗
+
+I’m so grateful that life gave me a person like you, someone I can be myself with, share my happiness with, complain to, laugh with, and even stay quiet with without feeling awkward. 🥹 You have a very special place in my heart, and no matter how much things change with time, I hope our bond always stays the same. 🤍🫂
+
+On your birthday, I just want to pray that Allah gives you endless happiness, peace, success, and everything your heart wishes for. May this new year of your life bring you beautiful moments, genuine smiles, and memories that we’ll laugh about together years from now. 🌷✨
+
+And yes, no matter how old we get, you’ll always be my bestie. 👑🤍 Love you so much, and I’m truly blessed to have you in my life. 🥹💗
+
+I’m really sorry this wish got late. 🥺🤍
+</p>
+
+                <p style="margin-top: 20px; text-align: center; font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: #d63384;">
+                    Happy Birthday once again, my bestiee! 🎂🎉💖
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================= MINI-PUZZLE POPUP MODAL ================= -->
+    <div class="modal-overlay" id="puzzleModal">
+        <div class="modal-box">
+            <h3>🔐 Quick Security Check!</h3>
+            <p>To reveal your final surprise video, answer this sweet little question:<br><strong>What is the nickname or core word of our unbreakable bond? (Hint: type "bestie" or "forever")</strong></p>
+            <input type="text" id="puzzleInput" placeholder="Type your answer here...">
+            <br>
+            <button class="puzzle-submit" onclick="checkPuzzle()">Verify & Unlock</button>
+            <div class="error-msg" id="errorMsg">Oops! Try typing "bestie" or "forever" 💕</div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        function createSparkles() {
+            for (let i = 0; i < 50; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.style.top = Math.random() * 100 + 'vh';
+                sparkle.style.left = Math.random() * 100 + 'vw';
+                sparkle.style.width = (Math.random() * 8 + 4) + 'px';
+                sparkle.style.height = sparkle.style.width;
+                sparkle.style.animationDuration = (Math.random() * 1.5 + 0.8) + 's';
+                sparkle.style.animationDelay = (Math.random() * 1.5) + 's';
+                document.body.appendChild(sparkle);
+            }
+        }
+
+        function playMusicAndBloom() {
+            const bgMusic = document.getElementById('bg-music');
+            bgMusic.play().catch(error => {
+                console.log("Audio playback error:", error);
+            });
+            createSparkles();
+            alert("Music is playing and glitter animation is blooming! ✨ Enjoy!");
+        }
+
+        function openCurtain() {
+            const curtainScreen = document.getElementById('curtain-screen');
+            const fullscreenPhotoSection = document.getElementById('fullscreenPhotoSection');
+            const bgMusic = document.getElementById('bg-music');
+
+            curtainScreen.classList.add('open');
+
+            bgMusic.play().catch(error => {
+                console.log("Audio autoplay restricted.");
+            });
+
+            setTimeout(() => {
+                curtainScreen.style.display = 'none';
+                fullscreenPhotoSection.style.display = 'flex';
+            }, 1500);
+        }
+
+        function enterMainWebsite() {
+            document.getElementById('fullscreenPhotoSection').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showPuzzleModal() {
+            document.getElementById('puzzleModal').classList.add('active');
+        }
+
+        function checkPuzzle() {
+            const inputVal = document.getElementById('puzzleInput').value.trim().toLowerCase();
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (inputVal === 'bestie' || inputVal === 'forever' || inputVal === 'ambreen' || inputVal === 'friend') {
+                document.getElementById('puzzleModal').classList.remove('active');
+                document.getElementById('giftSection').style.display = 'block';
+                document.getElementById('giftSection').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        // --- AUTOMATIC BACKGROUND MUSIC PAUSE WHEN VIDEO PLAYS ---
+        const surpriseVideo = document.getElementById('surpriseVideo');
+        const bgMusic = document.getElementById('bg-music');
+
+        surpriseVideo.addEventListener('play', () => {
+            if (!bgMusic.paused) {
+                bgMusic.pause(); // Video play hone par background music band ho jaye ga
+            }
+        });
+    </script>
+</body>
+</html>
